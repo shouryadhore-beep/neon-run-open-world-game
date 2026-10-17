@@ -13,6 +13,10 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000). The game server serves the page and carries multiplayer updates; opening `index.html` directly as a `file://` URL only supports single-player.
 
+## Mobile controls
+
+Open the game in your phone browser and turn the phone sideways to landscape. Use the two **STEER** buttons on the lower left, and the boost, accelerate, and brake buttons on the lower right.
+
 ## Play online with friends
 
 1. Host the server on a machine reachable by the other players, or deploy it to a Node.js host.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07131e">
   <title>NEON RUN — Highway After Dark</title>
   <style>
@@ -119,28 +119,44 @@
     .result strong { color: var(--cyan); font-size: 30px; }
 
     .mobile-controls {
-      display: none; position: fixed; z-index: 2; bottom: 75px; left: 20px; right: 20px;
-      justify-content: space-between; pointer-events: none;
+      display: none; position: fixed; z-index: 2; bottom: max(24px, env(safe-area-inset-bottom));
+      left: max(18px, env(safe-area-inset-left)); gap: 10px; pointer-events: none;
     }
     .mobile-pedals {
-      display: none; position: fixed; z-index: 2; right: 20px; bottom: 153px;
-      flex-direction: column; gap: 8px; pointer-events: none;
+      display: none; position: fixed; z-index: 2; right: max(18px, env(safe-area-inset-right));
+      bottom: max(24px, env(safe-area-inset-bottom)); flex-direction: row; gap: 10px; pointer-events: none;
     }
     .mobile-controls button {
-      pointer-events: auto; width: 62px; height: 62px; border: 1px solid rgba(225,245,248,.3);
-      border-radius: 50%; background: rgba(8,19,28,.45); color: white; font-size: 23px;
-      backdrop-filter: blur(5px); touch-action: none;
+      pointer-events: auto; width: 76px; height: 68px; border: 1px solid rgba(84,244,232,.55);
+      border-radius: 16px; background: rgba(8,19,28,.76); color: white;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+      backdrop-filter: blur(5px); touch-action: none; user-select: none;
+    }
+    .mobile-controls button span:first-child { font-size: 27px; line-height: 1; }
+    .mobile-controls button span:last-child { color: var(--cyan); font: 9px "DM Mono", monospace; letter-spacing: .12em; }
+    .mobile-controls button:active, .mobile-pedals button:active {
+      background: rgba(84,244,232,.35); transform: scale(.96);
     }
     .mobile-pedals button {
-      pointer-events: auto; width: 49px; height: 49px; border: 1px solid rgba(225,245,248,.3);
+      pointer-events: auto; width: 54px; height: 54px; border: 1px solid rgba(225,245,248,.42);
       border-radius: 50%; background: rgba(8,19,28,.48); color: white; font-size: 15px;
-      backdrop-filter: blur(5px); touch-action: none;
+      backdrop-filter: blur(5px); touch-action: none; user-select: none;
+    }
+    .rotate-prompt {
+      display: none; position: fixed; inset: 0; z-index: 10; place-items: center;
+      padding: 28px; text-align: center; background: #07131e;
+    }
+    .rotate-prompt strong {
+      display: block; color: var(--cyan); font-size: 30px; letter-spacing: .12em;
+    }
+    .rotate-prompt span {
+      display: block; margin-top: 12px; color: #c0cbd0; font: 12px/1.7 "DM Mono", monospace;
     }
     body.crashed .vignette { animation: flash .35s ease-out; }
     body.collision-hit .vignette { animation: collision-flash .22s ease-out; }
     @keyframes flash { 0% { background-color: rgba(255,91,71,.42); } 100% { background-color: transparent; } }
     @keyframes collision-flash { 0% { background-color: rgba(255, 178, 91, .3); } 100% { background-color: transparent; } }
-    @media (max-width: 640px) {
+    @media (max-width: 900px) {
       .topbar { top: 16px; left: 16px; right: 16px; }
       .brand-name { font-size: 16px; }
       .brand-mark { width: 31px; height: 31px; }
@@ -159,6 +175,9 @@
       .pause-button { height: 34px; padding: 0 9px; font-size: 9px; }
       .icon-button { width: 34px; height: 34px; padding: 0; }
       #multiplayerButton { width: 54px; font-size: 8px; }
+    }
+    @media (max-width: 640px) and (orientation: portrait) {
+      .rotate-prompt { display: grid; }
     }
     .multiplayer-panel {
       position: absolute; z-index: 4; top: 76px; right: 34px; width: 330px;
@@ -209,6 +228,9 @@
         <div class="brand-mark">N</div>
           <div><div class="brand-name">NEON RUN</div><div class="brand-sub">OPEN ROAD · OPEN WORLD</div></div>
       </div>
+      <div class="rotate-prompt" role="status" aria-live="polite">
+        <div><strong>TURN YOUR PHONE SIDEWAYS</strong><span>NEON RUN is designed to be played in landscape.</span></div>
+      </div>
       <div class="top-actions">
         <button class="icon-button" id="soundButton" aria-label="Toggle sound">♪ OFF</button>
         <button class="icon-button" id="multiplayerButton" aria-label="Open multiplayer">PLAYERS</button>
@@ -248,8 +270,8 @@
   </div>
 
   <div class="mobile-controls">
-    <button id="leftButton" aria-label="Steer left">‹</button>
-    <button id="rightButton" aria-label="Steer right">›</button>
+    <button id="leftButton" aria-label="Steer left"><span>◀</span><span>STEER</span></button>
+    <button id="rightButton" aria-label="Steer right"><span>▶</span><span>STEER</span></button>
   </div>
   <div class="mobile-pedals">
     <button id="boostButton" aria-label="Boost">⚡</button>
